@@ -1,9 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 a {
@@ -14,3 +18,19 @@ a {
 * {
   box-sizing: border-box;
 }
+
+/* navbar toggling thing */
+  .navContainer[data-visible="false"] {
+      transform: translateX(100%);
+  }
+
+  div.navContainer[data-visible="false"] ~ div.navButton > img.nav\:open {
+      display:  none;
+  }
+
+  .navContainer[data-visible="true"] {
+      transform: translateX(0%);
+  }
+  div.navContainer[data-visible="true"] ~ div.navButton > img.nav\:close {
+      display:  none;
+  }
