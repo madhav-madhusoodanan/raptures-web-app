@@ -61,8 +61,8 @@ export default function ProfileUser(props) {
                     Press and hold for quick details
                 </h3>
                 <div className="w-full flex flex-col gap-2">
-                    {proofs.map((proof) => (
-                        <Proof data={proof} setData={setData} />
+                    {proofs.map((proof, index) => (
+                        <Proof key={index} data={proof} setData={setData} />
                     ))}
                 </div>
             </div>

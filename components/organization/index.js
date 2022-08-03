@@ -77,8 +77,8 @@ export default function Organization() {
                     <div>
                         <div>
                             <h1 className="font-bold">Announcements</h1>
-                            {org.announcements.map((announcement) => (
-                                <div className="p-2 rounded-lg bg-slate-500 w-3/5 md:w-2/5 lg:w-3/5">
+                            {org.announcements.map((announcement, index) => (
+                                <div key={index} className="p-2 rounded-lg bg-slate-500 w-3/5 md:w-2/5 lg:w-3/5">
                                     <p className="font-bold">
                                         {announcement.sender}
                                     </p>
