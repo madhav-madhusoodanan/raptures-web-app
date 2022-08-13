@@ -1,7 +1,7 @@
 import { useState } from "react"
 
-export default function Organization() {
-    const [org, setOrg] = useState({
+export default function Project() {
+    const [project, setProject] = useState({
         name: "Astro Club",
         about: `We’re a group of students in BITS Pilani who love
         stargazing.
@@ -36,16 +36,16 @@ export default function Organization() {
             <div className="w-full h-screen flex flex-col lg:flex-row align-middle lg:justify-around overflow-scroll text-white">
                 <div className="w-auto h-auto lg:w-2/5 m-4 lg:m-0 flex flex-col gap-8 lg:gap-4 justify-center relative">
                     <div className="w-full h-16 text-2xl font-bold flex flex-col justify-center absolute top-0">
-                        {`Organizations > ${org.name}`}
+                        {`Organizations > ${project.name}`}
                     </div>
                     <div className="w-4/5 sm:3/5 md:2/5 lg:3/5 mt-16">
                         <h1 className="font-bold">About</h1>
-                        <p>{org.about}</p>
+                        <p>{project.about}</p>
                     </div>
                     <div>
                         <h1 className="font-bold">Members</h1>
                         <div className="flex flex-row gap-2">
-                            {org.members
+                            {project.members
                                 .filter((_, i) => i < 5)
                                 .map((person, index) => (
                                     <div key={index} className="flex flex-col">
@@ -63,9 +63,9 @@ export default function Organization() {
                 </div>
                 <div className="w-auto h-auto lg:w-2/5 m-4 lg:m-0 flex flex-col gap-8 lg:gap-4 justify-center">
                     <div>
-                        <h1 className="font-bold">Projects</h1>
+                        <h1 className="font-bold">Tasks</h1>
                         <div className="flex flex-row gap-2">
-                            {org.projects.map((project, index) => (
+                            {project.projects.map((project, index) => (
                                 <div key={index}>
                                     <p className="text-center px-4 py-2 rounded bg-slate-50 text-black w-min h-min">
                                         {project}
@@ -77,7 +77,7 @@ export default function Organization() {
                     <div>
                         <div>
                             <h1 className="font-bold">Announcements</h1>
-                            {org.announcements.map((announcement, index) => (
+                            {project.announcements.map((announcement, index) => (
                                 <div key={index} className="p-2 rounded-lg bg-slate-500 w-3/5 md:w-2/5 lg:w-3/5">
                                     <p className="font-bold">
                                         {announcement.sender}
