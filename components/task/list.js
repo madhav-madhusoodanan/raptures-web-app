@@ -29,9 +29,9 @@ export const TaskList = () => {
             <div className="font-bold mx-2">{`${loc.org}'s ${loc.project} tasks`}</div>
             <div className="text-xs m-2">Select a task to view it</div>
             {tasks.map((task, index) => (
-                <Link href={task.url}>
+                <Link href={task.url} key={index}>
                     <div
-                        key={index}
+                        
                         className="w-auto font-semibold rounded p-4 bg-gray-700"
                     >
                         {task.name}

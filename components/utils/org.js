@@ -18,13 +18,13 @@ export const createOrganization = async(profile) => {
     // store on ipfs and get cid
     const cid = await dataHandler.write(encryptOrg)
 
-    const byts32rep = Hash(orgSecret)
+    const byts32rep = await Hash(orgSecret)
     await dataHandler.put(byts32rep, cid)
     return profile
 }
 
 export const readOrganization = async(orgSecret) => {
-    const byts32rep = Hash(orgSecret)
+    const byts32rep = await Hash(orgSecret)
 
     const cid = await dataHandler.get(byts32rep)
     if (cid == "") return undefined
@@ -34,7 +34,7 @@ export const readOrganization = async(orgSecret) => {
     return org
 }
 
-export const updateOrganization = (org) => {
+export const updateOrganization = async(org) => {
     // create secret and return it
 
     const encryptOrg = await encrypt(JSON.stringify(defaultOrgData), orgSecret)
@@ -42,11 +42,11 @@ export const updateOrganization = (org) => {
     // store on ipfs and get cid
     const cid = await dataHandler.write(encryptOrg)
 
-    const byts32rep = Hash(org.secret)
+    const byts32rep = await Hash(org.secret)
     await dataHandler.put(byts32rep, cid)
 }
 
-export const deleteOrganization = (orgSecret) => {
-    const byts32rep = Hash(orgSecret)
+export const deleteOrganization = async(orgSecret) => {
+    const byts32rep = await Hash(orgSecret)
     await dataHandler.put(byts32rep, "")
 }

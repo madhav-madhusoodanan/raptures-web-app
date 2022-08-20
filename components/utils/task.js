@@ -16,13 +16,13 @@ export const createTask = async(project) => {
     // store on ipfs and get cid
     const cid = await dataHandler.write(encryptTask)
 
-    const byts32rep = Hash(taskSecret)
+    const byts32rep = await Hash(taskSecret)
     await dataHandler.put(byts32rep, cid)
     return project
 }
 
 export const readTask = async(taskSecret) => {
-    const byts32rep = Hash(taskSecret)
+    const byts32rep = await Hash(taskSecret)
     
     const cid = await dataHandler.get(byts32rep)
     if (cid == "") return undefined
@@ -33,7 +33,7 @@ export const readTask = async(taskSecret) => {
     return task
 }
 
-export const updateTask = (task) => {
+export const updateTask = async(task) => {
     // create secret and return it
 
     const encryptTask = await encrypt(JSON.stringify(task), task.secret)
@@ -41,11 +41,11 @@ export const updateTask = (task) => {
     // store on ipfs and get cid
     const cid = await dataHandler.write(encryptTask)
 
-    const byts32rep = Hash(task.secret)
+    const byts32rep = await Hash(task.secret)
     await dataHandler.put(byts32rep, cid)
 }
 
-export const deleteTask = (taskSecret) => {
-    const byts32rep = Hash(taskSecret)
+export const deleteTask = async(taskSecret) => {
+    const byts32rep = await Hash(taskSecret)
     await dataHandler.put(byts32rep, "")
 }

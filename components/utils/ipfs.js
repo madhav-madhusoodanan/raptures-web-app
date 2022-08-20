@@ -6,8 +6,8 @@ the link for any data is
 
 test cid: QmcGV8fimB7aeBxnDqr7bSSLUWLeyFKUukGqDhWnvriQ3T
 */
+import { ethers } from "ethers"
 import * as IPFS from "ipfs-core"
-import ethers from "ethers"
 import { ABI, KNOWHERE, provider } from "./abi"
 
 class DataHandler {

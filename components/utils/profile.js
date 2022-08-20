@@ -4,7 +4,7 @@ import ls from "localstorage-slim"
 import EthCrypto from "eth-crypto"
 import dataHandler from "./ipfs"
 
-export const Hash = (...data) => {
+export const Hash = async(...data) => {
     const hash = new Sha256()
     data.forEach(elem => hash.update(elem))
 
@@ -60,7 +60,7 @@ export const getProfile = async (password, extraPassword) => {
     // query the user profile from the bytes32 section in smart contract
 
     // this identifies the ipfs namespace of profile data
-    const byts32rep = Hash(password, extraPassword)
+    const byts32rep = await Hash(password, extraPassword)
     const cid = await dataHandler.get(byts32rep)
     if (cid == "") return undefined
     const encryptProfile = await dataHandler.read(cid)
@@ -74,7 +74,7 @@ export const getProfile = async (password, extraPassword) => {
     return profile
 }
 
-export const setProfile = (password, extraPassword, profile) => {
+export const setProfile = async(password, extraPassword, profile) => {
     ls.config.secret = password + extraPassword
     ls.set("raptures-temp-profile", JSON.stringify(profile))
     const encryptProfile = localStorage.getItem("raptures-temp-profile")
@@ -85,7 +85,7 @@ export const setProfile = (password, extraPassword, profile) => {
     const cid = await dataHandler.write(encryptProfile)
 
     // store cid in namespace
-    const byts32rep = Hash(password, extraPassword)
+    const byts32rep = await Hash(password, extraPassword)
     await dataHandler.put(byts32rep, cid)
     
 }
