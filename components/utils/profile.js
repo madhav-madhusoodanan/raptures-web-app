@@ -3,8 +3,15 @@ import { ethers } from "ethers"
 import ls from "localstorage-slim"
 import EthCrypto from "eth-crypto"
 import dataHandler from "./ipfs"
-import { nanoid } from 'nanoid'
 
+export const Hash = (...data) => {
+    const hash = new Sha256()
+    data.forEach(elem => hash.update(elem))
+
+    // this identifies the ipfs namespace of profile data
+    const byts32rep = Buffer.from(await hash.digest()).toString("hex")
+    return byts32rep
+}
 export const createMainAccount = async (password) => {
     ls.config.encrypt = true
     ls.config.secret = password
@@ -51,12 +58,9 @@ export const createCommAccount = async (password, extraPassword, signature) => {
 // now go to IPFS's getProfile function
 export const getProfile = async (password, extraPassword) => {
     // query the user profile from the bytes32 section in smart contract
-    const hash = new Sha256()
-    hash.update(password)
-    hash.update(extraPassword)
 
     // this identifies the ipfs namespace of profile data
-    const byts32rep = Buffer.from(await hash.digest()).toString("hex")
+    const byts32rep = Hash(password, extraPassword)
     const cid = await dataHandler.get(byts32rep)
     if (cid == "") return undefined
     const encryptProfile = await dataHandler.read(cid)
@@ -65,6 +69,7 @@ export const getProfile = async (password, extraPassword) => {
     localStorage.setItem("raptures-temp-profile", encryptProfile)
     ls.config.secret = password + extraPassword
     const profile = JSON.parse(ls.get("raptures-temp-profile"))
+    ls.config.secret = ""
     localStorage.removeItem("raptures-temp-profile")
     return profile
 }
@@ -73,57 +78,14 @@ export const setProfile = (password, extraPassword, profile) => {
     ls.config.secret = password + extraPassword
     ls.set("raptures-temp-profile", JSON.stringify(profile))
     const encryptProfile = localStorage.getItem("raptures-temp-profile")
+    ls.config.secret = ""
     localStorage.removeItem("raptures-temp-profile")
 
     // store on ipfs and get cid
     const cid = await dataHandler.write(encryptProfile)
 
     // store cid in namespace
-    const hash = new Sha256()
-    hash.update(password)
-    hash.update(extraPassword)
-    const byts32rep = Buffer.from(await hash.digest()).toString("hex")
+    const byts32rep = Hash(password, extraPassword)
     await dataHandler.put(byts32rep, cid)
     
 }
-
-export const createOrganization = () => {
-    // create secret and return it
-    // make the default org data
-    const orgSecret = nanoid()
-    const defaultOrgData = {name: "", mambers: [], announcements: [], projects: [], secret: orgSecret}
-
-    // store the org secret in profile
-
-    ls.config.secret = orgSecret
-    ls.set("raptures-temp-org", JSON.stringify(defaultOrgData))
-    const encryptOrg = localStorage.getItem("raptures-temp-org")
-    localStorage.removeItem("raptures-temp-org")
-
-    // store on ipfs and get cid
-    const cid = await dataHandler.write(encryptOrg)
-
-    const hash = new Sha256()
-    hash.update(orgSecret)
-    const byts32rep = Buffer.from(await hash.digest()).toString("hex")
-    await dataHandler.put(byts32rep, cid)
-}
-
-export const updateOrganization = (org) => {
-    // create secret and return it
-
-    ls.config.secret = org.secret
-    ls.set("raptures-temp-org", JSON.stringify(org))
-    const encryptOrg = localStorage.getItem("raptures-temp-org")
-    localStorage.removeItem("raptures-temp-org")
-
-    // store on ipfs and get cid
-    const cid = await dataHandler.write(encryptOrg)
-
-    const hash = new Sha256()
-    hash.update(org.secret)
-    const byts32rep = Buffer.from(await hash.digest()).toString("hex")
-    await dataHandler.put(byts32rep, cid)
-}
-
-export const 

@@ -13,12 +13,18 @@ import { ABI, KNOWHERE, provider } from "./abi"
 class DataHandler {
     handler
     knowhere
+    isInitialized
+    constructor() {
+    	this.isInitialized = false
+    }
     async initialize() {
         this.knowhere = new ethers.Contract(KNOWHERE, ABI, provider)
         this.handler = await IPFS.create({ repo: "ok" + Math.random() })
+        this.isInitialized = true
         console.log("CONSTRUCTED!")
     }
     async write(data) {
+    	if(!this.isInitialized) await this.initialize()
         const { cid } = await this.handler.add(data)
         return cid
     }
@@ -37,17 +43,22 @@ class DataHandler {
         */
     }
     async get(namespace) {
+        if(!this.isInitialized) await this.initialize()
         return await this.knowhere.read(namespace)
     }
     async read(cid) {
+    	const time = Date.now()
+    	if(!this.isInitialized) await this.initialize()
         let rawData = []
         const data = await this.handler.cat(cid)
         for await (let data1 of data) {
             rawData.push(data1)
         }
         if (typeof rawData[0] === "string") {
+                	console.log(Date.now() - time)
             return this.interpretString(rawData)
         } else if (typeof rawData[0] === "object") {
+        	console.log(Date.now() - time)
             return this.interpretBytes(rawData)
         }
     }
@@ -69,5 +80,6 @@ class DataHandler {
     }
 }
 const dataHandler = new DataHandler()
+dataHandler
 
 export default dataHandler

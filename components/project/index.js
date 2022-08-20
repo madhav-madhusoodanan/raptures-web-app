@@ -32,6 +32,7 @@ export default function Project() {
         ],
         projects: ["Telescope", "Outreach"],
     })
+
     return (
             <div className="w-full h-screen flex flex-col lg:flex-row align-middle lg:justify-around overflow-scroll text-white">
                 <div className="w-auto h-auto lg:w-2/5 m-4 lg:m-0 flex flex-col gap-8 lg:gap-4 justify-center relative">
