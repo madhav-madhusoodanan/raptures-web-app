@@ -3,15 +3,8 @@ import { ethers } from "ethers"
 import ls from "localstorage-slim"
 import EthCrypto from "eth-crypto"
 import dataHandler from "./ipfs"
+import executor from "./execution"
 
-export const Hash = async(...data) => {
-    const hash = new Sha256()
-    data.forEach(elem => hash.update(elem))
-
-    // this identifies the ipfs namespace of profile data
-    const byts32rep = Buffer.from(await hash.digest()).toString("hex")
-    return byts32rep
-}
 export const createMainAccount = async (password) => {
     ls.config.encrypt = true
     ls.config.secret = password
@@ -88,4 +81,14 @@ export const setProfile = async(password, extraPassword, profile) => {
     const byts32rep = await Hash(password, extraPassword)
     await dataHandler.put(byts32rep, cid)
     
+}
+
+export const acceptToken = async() => {
+    // this needs a notification event for any secret sharing stuff
+    // extract secret from the message,
+    // SHA256 the taskSecret to get the token id and namespace
+    // get the token details by decrypting the ipfs cid (from namespace) using taskSecret
+    // and then, depending on willingness, make the secret public by updating an API with the secrets
+
+    // update profile using the new secret
 }

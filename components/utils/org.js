@@ -1,8 +1,7 @@
-import { Sha256 } from "@aws-crypto/sha256-js"
 import dataHandler from "./ipfs"
 import { nanoid } from 'nanoid'
-import { Hash } from "./profile"
-import { decrypt, encrypt } from "./base"
+import { Hash } from "./crypto"
+import { decrypt, encrypt } from "./crypto"
 
 export const createOrganization = async(profile) => {
     // create secret and return it

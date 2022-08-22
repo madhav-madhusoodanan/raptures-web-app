@@ -1,6 +1,6 @@
 import dataHandler from "./ipfs"
 import { nanoid } from 'nanoid'
-import { Hash } from "./profile"
+import { Hash } from "./crypto"
 
 export const createForm = async() => {
     // create secret and return it
