@@ -1,6 +1,6 @@
 import dataHandler from "./ipfs"
 import { nanoid } from 'nanoid'
-import { Hash } from "./crypto"
+import { Hash, NamespaceGen } from "./crypto"
 
 export const createForm = async() => {
     // create secret and return it
@@ -13,13 +13,13 @@ export const createForm = async() => {
     // store on ipfs and get cid
     const cid = await dataHandler.write(encryptForm)
 
-    const byts32rep = await Hash(formSecret)
+    const byts32rep = await NamespaceGen(formSecret)
     await dataHandler.put(byts32rep, cid)
     return defaultFormData
 }
 
 export const readForm = async(formSecret) => {
-    const byts32rep = await Hash(formSecret)
+    const byts32rep = await NamespaceGen(formSecret)
     
     const cid = await dataHandler.get(byts32rep)
     if (cid == "") return undefined
@@ -38,11 +38,11 @@ export const updateForm = async(form) => {
     // store on ipfs and get cid
     const cid = await dataHandler.write(encryptForm)
 
-    const byts32rep = await Hash(form.secret)
+    const byts32rep = await NamespaceGen(form.secret)
     await dataHandler.put(byts32rep, cid)
 }
 
 export const deleteForm = async(formSecret) => {
-    const byts32rep = await Hash(formSecret)
+    const byts32rep = await NamespaceGen(formSecret)
     await dataHandler.put(byts32rep, "")
 }

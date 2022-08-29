@@ -4,6 +4,23 @@ import Proof from "./poc"
 export default function ProfileUser(props) {
     const { setData } = props
 
+    const [profile, setProfile] = useState({
+        name: "Rishabh Barnwal",
+        profilePic: "",
+        address: "0xA6705927324d083fAC7e53A8f533Cf9E5Bf714FC",
+        orgs: [
+            {
+                name: "",
+                secret: "",
+            },
+        ],
+        NFTs: [
+            {
+                id: "",
+                secret: "",
+            },
+        ],
+    })
     const [name, setName] = useState("Rishabh Barnwal")
     const [address, setAddress] = useState(
         "0xA6705927324d083fAC7e53A8f533Cf9E5Bf714FC"
@@ -38,15 +55,18 @@ export default function ProfileUser(props) {
         },
     ])
 
+    const getOrgs = async() => {}
+    const getNFTs = async() => {}
+
     return (
         <div className="mx-auto flex flex-col sm:flex-row sm:justify-around md:justify-center h-full text-white">
             <div className=" w-80 md:w-96 h-full mx-auto sm:mx-0 md:mx-4 sm:block my-8 sm:my-0 sm:py-4">
                 <div className="w-full h-80 bg-yellow-200 rounded-lg my-1 overflow-hidden"></div>
                 <div className=" w-80 mx-auto md:w-full md:mx-0 text-xl">
-                    {name}
+                    {profile.name}
                 </div>
                 <div className=" w-80 mx-auto md:w-full md:mx-0 text-xl">
-                    {address.substring(0, 10) + "..."}
+                    {profile.address.substring(0, 10) + "..."}
                 </div>
                 <div className=" w-80 mx-auto md:w-full md:mx-0 text-xl">
                     <span>{tokens}</span>

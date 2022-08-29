@@ -14,7 +14,12 @@ class Executor {
     rapturesContract
     constructor() {
         this.knowhere = new ethers.Contract(KNOWHERE, ABI, provider)
+        /* connect to metamask */
         console.log("CONSTRUCTED!")
+    }
+    async getProfile(address) {
+        const profileString = await this.knowhere.getProfile(address)
+        return JSON.parse(profileString)
     }
     async put(namespace, data) {
         const tx = await this.knowhere.update(namespace, data)
@@ -68,7 +73,10 @@ class Executor {
         5. Custom msgs
         */
         const blockNumbers = []
-        const filterFromMe = this.knowhere.filters.Notification(addr0.address, blockNumbers)
+        const filterFromMe = this.knowhere.filters.Notification(
+            addr0.address,
+            blockNumbers
+        )
         const logs = await kh.queryFilter(filterFromMe)
         return logs
     }

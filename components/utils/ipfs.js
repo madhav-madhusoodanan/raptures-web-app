@@ -2,7 +2,7 @@
 
 the link for any data is
 `https://dweb.link/ipfs/${cid}`
-
+https://dweb.link/ipfs/QmSXCHSsFWnXo93VJTtRTNGogsz9Jm3ApDm6Di4axkfNWm
 
 test cid: QmcGV8fimB7aeBxnDqr7bSSLUWLeyFKUukGqDhWnvriQ3T
 */
@@ -26,7 +26,7 @@ class DataHandler {
     async write(data) {
     	if(!this.isInitialized) await this.initialize()
         const { cid } = await this.handler.add(data)
-        return cid
+        return cid.toString()
     }
     async put(namespace, data) {
         const tx = await this.knowhere.update(namespace, data)
