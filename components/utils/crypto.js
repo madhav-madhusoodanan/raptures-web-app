@@ -1,6 +1,19 @@
 import { Sha256 } from "@aws-crypto/sha256-js"
+const { concat, toUtf8Bytes, keccak256, recoverAddress } = require("ethers/lib/utils")
 
-
+export const recoverAddressLocal = (message, signature) => {
+    const address = recoverAddress(
+        keccak256(
+            concat([
+                toUtf8Bytes("\x19Ethereum Signed Message:\n"),
+                toUtf8Bytes(String(message.length)),
+                toUtf8Bytes(message),
+            ])
+        ),
+        signature
+    )
+    return address
+}
 
 export const Hash = async(...data) => {
     const hash = new Sha256()

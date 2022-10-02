@@ -10,6 +10,7 @@ export default function Organization() {
         
         Wanna know when Jupiter is visible?
         We’ll tell you :)`,
+        creator: "Aditya Thakur",
         members: [
             {
                 name: "Poza",

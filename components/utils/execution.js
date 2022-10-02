@@ -18,14 +18,16 @@ class Executor {
         console.log("CONSTRUCTED!")
     }
     async getProfile(address) {
-        const profileString = await this.knowhere.getProfile(address)
-        return JSON.parse(profileString)
+        const cid = await this.knowhere.getProfile(address)
+        return cid
+    }
+    async putProfile(address, cid) {
+        await this.knowhere.updateProfile(address, cid)
     }
     async put(namespace, data) {
         const tx = await this.knowhere.update(namespace, data)
         await tx.wait()
     }
-
     async get(namespace) {
         if (!this.isInitialized) await this.initialize()
         return await this.knowhere.read(namespace)
@@ -82,6 +84,5 @@ class Executor {
     }
 }
 const executor = new Executor()
-executor
 
 export default executor

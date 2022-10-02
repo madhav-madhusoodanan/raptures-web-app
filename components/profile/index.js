@@ -20,6 +20,9 @@ export default function ProfileUser(props) {
                 secret: "",
             },
         ],
+        secrets: {
+            /* orgs and projects */
+        }
     })
     const [name, setName] = useState("Rishabh Barnwal")
     const [address, setAddress] = useState(

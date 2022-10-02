@@ -3,22 +3,19 @@
 the link for any data is
 `https://dweb.link/ipfs/${cid}`
 https://dweb.link/ipfs/QmSXCHSsFWnXo93VJTtRTNGogsz9Jm3ApDm6Di4axkfNWm
+https://ipfs.io/ipfs/QmSXCHSsFWnXo93VJTtRTNGogsz9Jm3ApDm6Di4axkfNWm
 
 test cid: QmcGV8fimB7aeBxnDqr7bSSLUWLeyFKUukGqDhWnvriQ3T
 */
-import { ethers } from "ethers"
 import * as IPFS from "ipfs-core"
-import { ABI, KNOWHERE, provider } from "./abi"
 
 class DataHandler {
     handler
-    knowhere
     isInitialized
     constructor() {
     	this.isInitialized = false
     }
     async initialize() {
-        this.knowhere = new ethers.Contract(KNOWHERE, ABI, provider)
         this.handler = await IPFS.create({ repo: "ok" + Math.random() })
         this.isInitialized = true
         console.log("CONSTRUCTED!")
@@ -28,24 +25,7 @@ class DataHandler {
         const { cid } = await this.handler.add(data)
         return cid.toString()
     }
-    async put(namespace, data) {
-        const tx = await this.knowhere.update(namespace, data)
-        await tx.wait()
-    }
-    async pin(cid, namespace) {
-        /* 
-        
-        1. check for permission
-        2. check if namespace has been created or deleted latest
-        3. create and pin if it does not exist
-        4. update it if it does 
-        
-        */
-    }
-    async get(namespace) {
-        if(!this.isInitialized) await this.initialize()
-        return await this.knowhere.read(namespace)
-    }
+    
     async read(cid) {
     	const time = Date.now()
     	if(!this.isInitialized) await this.initialize()
@@ -80,6 +60,5 @@ class DataHandler {
     }
 }
 const dataHandler = new DataHandler()
-dataHandler
 
 export default dataHandler

@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { MiniProject } from "./mini"
 
 /* 
 
@@ -28,11 +29,7 @@ export const TaskList = () => {
             <div className="font-bold mx-2">{`${loc.org}'s projects`}</div>
             <div className="text-xs m-2">Select a task to view it</div>
             {projects.map((project, index) => (
-                <Link href={project.url} key={index}>
-                    <div className="w-auto font-semibold rounded p-4 bg-gray-700">
-                        {project.name}
-                    </div>
-                </Link>
+                <MiniProject href={project.url} key={index} />
             ))}
         </div>
     )

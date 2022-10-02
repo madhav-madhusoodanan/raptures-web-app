@@ -2,6 +2,7 @@ import dataHandler from "./ipfs"
 import { nanoid } from "nanoid"
 import { Hash, NamespaceGen } from "./crypto"
 import { decrypt, encrypt } from "./crypto"
+import executor from "./execution"
 
 export const createOrganization = async (profile) => {
     // create secret and return it
@@ -23,14 +24,14 @@ export const createOrganization = async (profile) => {
     const cid = await dataHandler.write(encryptOrg)
 
     const byts32rep = await NamespaceGen(orgSecret)
-    await dataHandler.put(byts32rep, cid)
+    await executor.put(byts32rep, cid)
     return profile
 }
 
 export const readOrganization = async (orgSecret) => {
     const byts32rep = await NamespaceGen(orgSecret)
 
-    const cid = await dataHandler.get(byts32rep)
+    const cid = await executor.get(byts32rep)
     if (cid == "") return undefined
     const encryptOrg = await dataHandler.read(cid)
 
@@ -47,10 +48,10 @@ export const updateOrganization = async (org) => {
     const cid = await dataHandler.write(encryptOrg)
 
     const byts32rep = await NamespaceGen(org.secret)
-    await dataHandler.put(byts32rep, cid)
+    await executor.put(byts32rep, cid)
 }
 
 export const deleteOrganization = async (orgSecret) => {
     const byts32rep = await NamespaceGen(orgSecret)
-    await dataHandler.put(byts32rep, "")
+    await executor.put(byts32rep, "")
 }
